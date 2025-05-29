@@ -1,4 +1,4 @@
-# Weather IoT WiFi
+# Weather IoT WiFi Transceiver
 
 This project is the WiFi-based receiver and logger for the Weather IoT Sensor system. It runs on an ESP32 board and is responsible for receiving weather and GPS data from a sensor node through UART, and then transmitting the data to a server or cloud endpoint for storage and analysis.
 
