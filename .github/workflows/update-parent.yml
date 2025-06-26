@@ -23,10 +23,14 @@ jobs:
           cd weather-iot-device
           git submodule update --init --recursive
 
-      - name: Update submodule reference
+      - name: Update submodule reference and push
         run: |
           cd weather-iot-device
           git submodule update --remote weather-iot-wifi
+
+          # Extract latest commit message from submodule
+          COMMIT_MSG=$(git -C weather-iot-wifi log -1 --pretty=%B)
+
           git add weather-iot-wifi
-          git commit -m "chore: update submodule to latest main"
+          git commit -m "$COMMIT_MSG" || echo "Nothing to commit"
           git push origin main
