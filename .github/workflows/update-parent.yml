@@ -1,0 +1,32 @@
+name: Update Parent Repo
+
+on:
+  push:
+    branches:
+      - main  # Trigger when main branch of submodule updates
+
+jobs:
+  update-parent:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout submodule repo
+        uses: actions/checkout@v3
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+
+      - name: Clone parent repo
+        run: |
+          git clone https://x-access-token:${{ secrets.PARENT_REPO_TOKEN }}@github.com/scuya2050/weather-iot-device.git
+          cd weather-iot-device
+          git submodule update --init --recursive
+
+      - name: Update submodule reference
+        run: |
+          cd weather-iot-device
+          git submodule update --remote weather-iot-wifi
+          git add weather-iot-wifi
+          git commit -m "chore: update submodule to latest main"
+          git push origin main
